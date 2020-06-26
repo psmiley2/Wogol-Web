@@ -3,6 +3,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import LoggedOutDashboard from "./LoggedOutDashboard";
 import Task from "./Task";
 
 export default function Dashboard() {
@@ -17,23 +18,25 @@ export default function Dashboard() {
 	};
 
 	useEffect(() => {
-		axios
-			.get(`http://localhost:8080/tracks/user/${userID}`)
-			.then((res) => {
-				setUserTracks(res.data);
-			})
-			.catch((err) => console.error(err));
+		if (userID) {
+			axios
+				.get(`http://localhost:8080/tracks/user/${userID}`)
+				.then((res) => {
+					setUserTracks(res.data);
+				})
+				.catch((err) => console.error(err));
+		}
 	}, [update]);
 
 	if (userTracks) {
-		if (userTracks == []) {
+		if (userTracks === []) {
 			return <div>Sign up for a track</div>;
 		} else {
 			renderTasks = (track) => {
 				let checkpoint;
 				for (checkpoint of track.checkpoints) {
 					return track.checkpoints.map((checkpoint, index) => {
-						if (checkpoint._id == track.currentCheckpoint) {
+						if (checkpoint._id === track.currentCheckpoint) {
 							return checkpoint.tasks.map((task, index) => {
 								return (
 									<li key={index}>
@@ -64,10 +67,14 @@ export default function Dashboard() {
 		}
 	}
 
-	return (
-		<div>
-			Current Tasks:
-			{renderTracks}
-		</div>
-	);
+	if (userID) {
+		return (
+			<div>
+				Current Tasks:
+				{renderTracks}
+			</div>
+		);
+	} else {
+		return <LoggedOutDashboard />;
+	}
 }

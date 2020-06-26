@@ -1,8 +1,28 @@
-import { Box } from "@material-ui/core";
+import { Box, Grid, List, ListItem, Typography } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import TaskInfo from "./TaskInfo";
+const useStyles = makeStyles((theme) => ({
+	root: {
+		width: "50%",
+		height: "100%",
+		paddingTop: "3%",
+		justifyContent: "center",
+		margin: "auto",
+	},
+	list: {
+		backgroundColor: "WhiteSmoke",
+	},
+	currentList: {
+		backgroundColor: "Yellow",
+	},
+}));
+
 export default function UserTrackDetail(props) {
+	const classes = useStyles();
+
 	const userID = useSelector((state) => state.user.id);
 	let trackID = props.match.params.trackID;
 	let renderTasks = <></>;
@@ -20,37 +40,47 @@ export default function UserTrackDetail(props) {
 	if (track) {
 		renderTasks = (checkpointIndex) =>
 			track.checkpoints[checkpointIndex].tasks.map((task, index) => {
-				return (
-					<div key={index}>
-						<li>
-							{task.title} - {task.description}
-						</li>
-					</div>
-				);
+				return <TaskInfo key={index} task={task} />;
 			});
 
 		renderCheckpoints = track.checkpoints.map((checkpoint, index) => {
-			if (checkpoint._id == track.currentCheckpoint) {
+			if (checkpoint._id === track.currentCheckpoint) {
 				return (
-					<Box border={1} key={index}>
-						<li>
-							<h4>{checkpoint.title}</h4>"{checkpoint.description}"
-							<ul>{renderTasks(index)}</ul>
-						</li>
-					</Box>
+					<ListItem dense key={index} className={classes.currentList}>
+						<Grid container spacing={2}>
+							<Grid item xs={12}>
+								<Typography variant="h5">{checkpoint.title}</Typography>
+								<Typography>(Current)</Typography>
+							</Grid>
+							<Grid item xs={12}>
+								<List className={classes.list}>{renderTasks(index)}</List>
+							</Grid>
+						</Grid>
+					</ListItem>
 				);
 			} else {
 				return (
-					<div key={index}>
-						<li>
-							<h4>{checkpoint.title}</h4>"{checkpoint.description}"
-							<ul>{renderTasks(index)}</ul>
-						</li>
-					</div>
+					<Box>
+						<ListItem key={index} dense>
+							<Grid container spacing={2}>
+								<Grid item xs={12}>
+									<Typography variant="h5">{checkpoint.title}</Typography>
+								</Grid>
+								<Grid item xs={12}>
+									<List className={classes.list}>{renderTasks(index)}</List>
+								</Grid>
+							</Grid>
+						</ListItem>
+					</Box>
 				);
 			}
 		});
 	}
 
-	return <div>{renderCheckpoints}</div>;
+	return (
+		<div className={classes.root}>
+			{track ? <Typography variant="h4">{track.title}</Typography> : null}
+			<List>{renderCheckpoints}</List>
+		</div>
+	);
 }

@@ -1,9 +1,34 @@
-import { Button } from "@material-ui/core";
+import { Box, Button, Grid, Typography } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+
+const useStyles = makeStyles({
+	root: {
+		width: "100%",
+		height: "100%",
+		paddingTop: "10%",
+		justifyContent: "center",
+		flexDirection: "column",
+	},
+	box: {
+		margin: "auto",
+		width: "30%",
+		padding: "2%",
+		borderRadius: "3px",
+		textAlign: "center",
+	},
+	button: {
+		float: "right",
+		marginTop: "5%",
+	},
+});
+
 export default function CurrentTracks() {
+	const classes = useStyles();
+
 	let renderTracks = <></>;
 	const userID = useSelector((state) => state.user.id);
 	const [userTracks, setUserTracks] = useState(undefined);
@@ -22,7 +47,7 @@ export default function CurrentTracks() {
 			return (
 				<div key={index}>
 					<Link to={link} key={index}>
-						<Button>{track.title}</Button>
+						<Button fullWidth>{track.title}</Button>
 					</Link>
 				</div>
 			);
@@ -30,9 +55,13 @@ export default function CurrentTracks() {
 	}
 
 	return (
-		<div>
-			Current Tracks:
-			{renderTracks}
-		</div>
+		<Grid container spacing={2} className={classes.root}>
+			<Typography variant="h4" className={classes.box}>
+				Current Tracks
+			</Typography>
+			<Grid item xs={4} className={classes.box}>
+				<Box>{renderTracks}</Box>
+			</Grid>
+		</Grid>
 	);
 }

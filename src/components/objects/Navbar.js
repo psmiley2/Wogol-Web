@@ -29,8 +29,13 @@ export default function ButtonAppBar() {
 	const dispatch = useDispatch();
 	const classes = useStyles();
 
-	const handleLogout = () => {
-		dispatch(logout());
+	const handleLogout = async () => {
+		await dispatch(logout());
+
+		// This is a bad fix. To rerender I am sending to a randomly
+		// chosen url and then back to the dashboard. It also causes
+		// a warning
+		history.push("/tracks");
 		history.push("/");
 	};
 

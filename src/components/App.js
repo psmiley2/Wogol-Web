@@ -5,11 +5,12 @@ import { Route, Router, Switch } from "react-router-dom";
 import { setSession } from "../actions";
 import Tracks from "../components/containers/Tracks";
 import history from "../history";
+import AllTracks from "./containers/AllTracks";
 import CurrentTracks from "./containers/CurrentTracks";
 import Dashboard from "./containers/Dashboard";
 import Login from "./containers/Login";
 import Register from "./containers/Register";
-import TrackAdd from "./containers/TrackAdd";
+import TrackAddForm from "./containers/TrackAddForm";
 import TrackDetail from "./containers/TrackDetail";
 import TrackMarket from "./containers/TrackMarket";
 import UserTrackDetail from "./containers/UserTrackDetail";
@@ -28,7 +29,8 @@ export default function App() {
 					<Route path="/login" exact component={Login} />
 					<Route path="/register" exact component={Register} />
 					<Route path="/tracks" exact component={Tracks} />
-					<Route path="/tracks/create" exact component={TrackAdd} />
+					<Route path="/tracks/create" exact component={TrackAddForm} />
+					<Route path="/tracks/all" exact component={AllTracks} />
 					<Route path="/tracks/user" exact component={CurrentTracks} />
 					<Route path="/tracks/:trackID" exact component={TrackDetail} />
 					<Route path="/tracks/user/:trackID" exact component={UserTrackDetail} />

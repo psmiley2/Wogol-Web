@@ -11,8 +11,6 @@ export default function Task({ track, checkpoint, task, rerenderTasks }) {
 	const trackID = track._id;
 	const [checked, setChecked] = useState(task.completed);
 
-	let changed = true;
-
 	const sendUpdate = (update) => {
 		return new Promise(async (resolve, reject) => {
 			await axios
@@ -40,9 +38,9 @@ export default function Task({ track, checkpoint, task, rerenderTasks }) {
 
 		let checkpointCompleted = true;
 		for (checkpoint of track.checkpoints) {
-			if (checkpoint._id == checkpointID) {
+			if (checkpoint._id === checkpointID) {
 				for (task of checkpoint.tasks) {
-					if (task.completed == false) {
+					if (task.completed === false) {
 						checkpointCompleted = false;
 						break;
 					}
@@ -70,7 +68,6 @@ export default function Task({ track, checkpoint, task, rerenderTasks }) {
 		setChecked(event.target.checked);
 		await sendUpdate(update);
 		checkCheckpointCompleted();
-		changed = true;
 	};
 
 	return (

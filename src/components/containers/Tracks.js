@@ -1,31 +1,101 @@
 // import { useSelector } from "react-redux"
-import { Button } from '@material-ui/core'
-import axios from "axios"
-import React, { useEffect, useState } from 'react'
-import { useSelector } from "react-redux"
-import { Link } from "react-router-dom"
-import TrackList from "./TrackList"
+import { Box, Button, Grid, TextField, Typography } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+import React from "react";
+import { Link } from "react-router-dom";
+
+const useStyles = makeStyles({
+	root: {
+		width: "100%",
+		height: "100%",
+		paddingTop: "3%",
+		display: "flex",
+		justifyContent: "center",
+		alignItems: "center",
+		flexDirection: "column",
+	},
+	box: {
+		width: "20%",
+		padding: "2%",
+		borderRadius: "3px",
+	},
+	button: {
+		float: "right",
+		marginTop: "5%",
+	},
+	exploreItems: {
+		flexDirection: "row",
+	},
+});
+
 export default function Tracks() {
-    const userID = useSelector(state => state.user.id)
-    const [tracks, setTracks] = useState([])
+	const classes = useStyles();
 
-    useEffect(() => {
-        axios.get("http://localhost:8080/tracks").then(res => {
-            setTracks(res.data)
-        }).catch(err => console.error(err))        
-    }, [])
-
-    return (
-        <div>
-            <div>
-                <h4>Tracks:</h4>
-                <Link to="/tracks/create">
-                    <Button variant="outlined" color="primary">
-                        Create a Track
-                    </Button>
-                </Link>
-                <TrackList tracks={tracks} />
-            </div>
-        </div>
-    )
+	return (
+		<Box className={classes.root}>
+			<Typography variant="h4">Discover Tracks</Typography>
+			<Grid container spacing={2}>
+				<Grid item xs={4} />
+				<Grid item xs={4}>
+					<TextField
+						fullWidth
+						variant="outlined"
+						placeholder="Search For A Track"
+					></TextField>
+				</Grid>
+				<Grid item xs={4} />
+				<Grid item xs={4} />
+				<Grid item xs={4}>
+					<Link to="/tracks/create">
+						<Button fullWidth variant="outlined" color="primary">
+							Create a Track
+						</Button>
+					</Link>
+				</Grid>
+				<Grid item xs={4} />
+				<Grid item xs={3}>
+					<Button fullWidth variant="outlined">
+						New
+					</Button>
+				</Grid>
+				<Grid item xs={3}>
+					<Button fullWidth variant="outlined">
+						Popular
+					</Button>
+				</Grid>
+				<Grid item xs={3}>
+					<Link to="/tracks/all">
+						<Button fullWidth variant="outlined">
+							All
+						</Button>
+					</Link>
+				</Grid>
+				<Grid item xs={3}>
+					<Button fullWidth variant="outlined">
+						Featured
+					</Button>
+				</Grid>
+				<Grid item xs={3}>
+					<Button fullWidth variant="outlined">
+						Music
+					</Button>
+				</Grid>
+				<Grid item xs={3}>
+					<Button fullWidth variant="outlined">
+						Health and Fitness
+					</Button>
+				</Grid>
+				<Grid item xs={3}>
+					<Button fullWidth variant="outlined">
+						Academic
+					</Button>
+				</Grid>
+				<Grid item xs={3}>
+					<Button fullWidth variant="outlined">
+						Arts
+					</Button>
+				</Grid>
+			</Grid>
+		</Box>
+	);
 }

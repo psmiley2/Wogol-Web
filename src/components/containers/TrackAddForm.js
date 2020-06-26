@@ -1,10 +1,29 @@
+import { Box, Typography } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
 import React, { useState } from "react";
 import TrackAddCheckpoint from "./TrackAddCheckpoint";
 import TrackAddDetails from "./TrackAddDetails";
 import TrackAddTask from "./TrackAddTask";
 
+const useStyles = makeStyles({
+	root: {
+		width: "100%",
+		height: "100%",
+		paddingTop: "10%",
+		margin: "auto",
+		display: "flex",
+		justifyContent: "center",
+	},
+	box: {
+		width: "20%",
+		padding: "2%",
+		borderRadius: "3px",
+	},
+});
+
 export default function TrackAddForm(props) {
+	const classes = useStyles();
 	const [title, setTitle] = useState("");
 	const [description, setDescription] = useState("");
 	const [checkpoints, setCheckpoints] = useState([]);
@@ -89,23 +108,25 @@ export default function TrackAddForm(props) {
 	});
 
 	return (
-		<div>
-			<TrackAddDetails
-				title={title}
-				setTitle={setTitle}
-				description={description}
-				setDescription={setDescription}
-				handleSubmit={handleSubmit}
-				renderCheckpoints={renderCheckpoints}
-			/>
-
-			<TrackAddCheckpoint
-				newCheckpointTitle={newCheckpointTitle}
-				setNewCheckpointTitle={setNewCheckpointTitle}
-				newCheckpointDescription={newCheckpointDescription}
-				setNewCheckpointDescription={setNewCheckpointDescription}
-				handleAddCheckpoint={handleAddCheckpoint}
-			/>
+		<div className={classes.root}>
+			<Box className={classes.box}>
+				<Typography variant="h5">Create a Track</Typography>
+				<TrackAddDetails
+					title={title}
+					setTitle={setTitle}
+					description={description}
+					setDescription={setDescription}
+					handleSubmit={handleSubmit}
+					renderCheckpoints={renderCheckpoints}
+				/>
+				<TrackAddCheckpoint
+					newCheckpointTitle={newCheckpointTitle}
+					setNewCheckpointTitle={setNewCheckpointTitle}
+					newCheckpointDescription={newCheckpointDescription}
+					setNewCheckpointDescription={setNewCheckpointDescription}
+					handleAddCheckpoint={handleAddCheckpoint}
+				/>
+			</Box>
 		</div>
 	);
 }

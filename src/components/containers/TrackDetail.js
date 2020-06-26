@@ -62,7 +62,7 @@ export default React.memo((props) => {
 	return (
 		<div>
 			<h2>{track.title}</h2>
-			<Button color="secondary" onClick={() => handleTrackAdd()}>
+			<Button color="secondary" variant="outlined" onClick={() => handleTrackAdd()}>
 				Add Track
 			</Button>
 			<p>{track.description}</p>
