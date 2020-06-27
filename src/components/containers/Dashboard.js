@@ -1,4 +1,5 @@
-import { Button, List } from "@material-ui/core";
+import { Box, Button, Grid, List, ListItem, Typography } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -6,7 +7,24 @@ import { Link } from "react-router-dom";
 import LoggedOutDashboard from "./LoggedOutDashboard";
 import Task from "./Task";
 
+const useStyles = makeStyles({
+	root: {
+		width: "100%",
+		height: "100%",
+		paddingTop: "10%",
+		textAlign: "center",
+	},
+	tasks: {
+		backgroundColor: "WhiteSmoke",
+	},
+	title: {
+		textAlign: "center",
+		margin: "auto",
+	},
+});
+
 export default function Dashboard() {
+	const classes = useStyles();
 	let renderTracks = <></>;
 	let renderTasks = <></>;
 	const userID = useSelector((state) => state.user.id);
@@ -39,14 +57,14 @@ export default function Dashboard() {
 						if (checkpoint._id === track.currentCheckpoint) {
 							return checkpoint.tasks.map((task, index) => {
 								return (
-									<li key={index}>
+									<ListItem key={index} dense>
 										<Task
 											track={track}
 											checkpoint={checkpoint}
 											task={task}
 											rerenderTasks={rerenderTasks}
 										/>
-									</li>
+									</ListItem>
 								);
 							});
 						}
@@ -56,12 +74,16 @@ export default function Dashboard() {
 			renderTracks = userTracks.map((track, index) => {
 				let link = `/tracks/user/${track._id}`;
 				return (
-					<div key={index}>
+					<Grid item xs={12} sm={6} md={4} lg={3} key={index}>
 						<Link to={link} key={index}>
-							<Button>{track.title}</Button>
+							<Button variant="outlined" fullWidth>
+								{track.title}
+							</Button>
 						</Link>
-						<List>{renderTasks(track)}</List>
-					</div>
+						<Box className={classes.tasks}>
+							<List>{renderTasks(track)}</List>
+						</Box>
+					</Grid>
 				);
 			});
 		}
@@ -69,10 +91,18 @@ export default function Dashboard() {
 
 	if (userID) {
 		return (
-			<div>
-				Current Tasks:
-				{renderTracks}
-			</div>
+			<Grid spacing={2} container xs={12}>
+				<Grid item xs={4} />
+				<Grid className={classes.titleBox} item xs={4}>
+					<Typography className={classes.title} variant="h5">
+						Current Tasks
+					</Typography>
+				</Grid>
+				<Grid item xs={4} />
+				<Grid container xs={12} spacing={2}>
+					{renderTracks}
+				</Grid>
+			</Grid>
 		);
 	} else {
 		return <LoggedOutDashboard />;

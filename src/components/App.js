@@ -3,7 +3,7 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { Route, Router, Switch } from "react-router-dom";
 import { setSession } from "../actions";
-import Tracks from "../components/containers/Tracks";
+import FeaturedTracks from "../components/containers/FeaturedTracks";
 import history from "../history";
 import AllTracks from "./containers/AllTracks";
 import CurrentTracks from "./containers/CurrentTracks";
@@ -28,7 +28,7 @@ export default function App() {
 					<Route path="/market" exact component={TrackMarket} />
 					<Route path="/login" exact component={Login} />
 					<Route path="/register" exact component={Register} />
-					<Route path="/tracks" exact component={Tracks} />
+					<Route path="/tracks" exact component={FeaturedTracks} />
 					<Route path="/tracks/create" exact component={TrackAddForm} />
 					<Route path="/tracks/all" exact component={AllTracks} />
 					<Route path="/tracks/user" exact component={CurrentTracks} />

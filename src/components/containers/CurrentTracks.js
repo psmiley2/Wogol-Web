@@ -47,7 +47,9 @@ export default function CurrentTracks() {
 			return (
 				<div key={index}>
 					<Link to={link} key={index}>
-						<Button fullWidth>{track.title}</Button>
+						<Button variant="outlined" fullWidth>
+							{track.title}
+						</Button>
 					</Link>
 				</div>
 			);
