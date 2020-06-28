@@ -2,6 +2,8 @@ import { Box, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
+import history from "../../history";
 import TrackAddCheckpoint from "./TrackAddCheckpoint";
 import TrackAddDetails from "./TrackAddDetails";
 import TrackAddTask from "./TrackAddTask";
@@ -24,6 +26,12 @@ const useStyles = makeStyles({
 
 export default function TrackAddForm(props) {
 	const classes = useStyles();
+	const userID = useSelector((state) => state.user.id);
+
+	if (!userID) {
+		history.push("/login");
+	}
+
 	const [title, setTitle] = useState("");
 	const [description, setDescription] = useState("");
 	const [checkpoints, setCheckpoints] = useState([]);
@@ -43,12 +51,11 @@ export default function TrackAddForm(props) {
 				checkpoints,
 			})
 			.then((res) => {
-				console.log(res);
+				// console.log(res);
 			})
 			.catch((err) => console.error(err));
 
-		setTitle("");
-		setDescription("");
+		history.push("/tracks");
 	};
 
 	const handleAddCheckpoint = () => {

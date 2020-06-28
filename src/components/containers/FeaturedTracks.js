@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import SuggestionPopup from "./SuggestionPopup";
 import TrackCard from "./TrackCard";
 
 const useStyles = makeStyles({
@@ -49,11 +50,17 @@ export default function FeaturedTracks() {
 	}, [featuredTracks]);
 
 	if (featuredTracks) {
+		let tempImages = ["weights.jpg", "art.jpg", "coding.jpg"];
 		renderFeaturedTracks = featuredTracks.map((track, index) => {
 			return (
 				<React.Fragment key={index}>
-					<Grid item xs={12} sm={6} md={4} xl={3}>
-						<TrackCard title={track.title} description={track.description} />
+					<Grid item xs={12} sm={4} md={4} xl={4}>
+						<TrackCard
+							id={track._id}
+							title={track.title}
+							description={track.description}
+							image={tempImages[index]}
+						/>
 					</Grid>
 				</React.Fragment>
 			);
@@ -68,7 +75,7 @@ export default function FeaturedTracks() {
 
 				{renderFeaturedTracks}
 
-				<Grid container xs={12} className={classes.actions}>
+				<Grid container className={classes.actions}>
 					<Grid item xs={4}>
 						<Link to="/tracks/create">
 							<Button fullWidth variant="outlined" color="secondary">
@@ -76,10 +83,8 @@ export default function FeaturedTracks() {
 							</Button>
 						</Link>
 					</Grid>
-					<Grid item xs={3}>
-						<Button fullWidth variant="outlined" color="primary">
-							Suggest A Track
-						</Button>
+					<Grid item xs={4}>
+						<SuggestionPopup />
 					</Grid>
 				</Grid>
 			</Grid>

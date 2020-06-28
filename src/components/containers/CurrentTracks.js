@@ -4,7 +4,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-
+import history from "../../history";
 const useStyles = makeStyles({
 	root: {
 		width: "100%",
@@ -31,6 +31,11 @@ export default function CurrentTracks() {
 
 	let renderTracks = <></>;
 	const userID = useSelector((state) => state.user.id);
+
+	if (userID === undefined || userID === "") {
+		history.push("/login");
+	}
+
 	const [userTracks, setUserTracks] = useState(undefined);
 	useEffect(() => {
 		axios
@@ -42,18 +47,31 @@ export default function CurrentTracks() {
 	}, []);
 
 	if (userTracks) {
-		renderTracks = userTracks.map((track, index) => {
-			let link = `/tracks/user/${track._id}`;
-			return (
-				<div key={index}>
-					<Link to={link} key={index}>
-						<Button variant="outlined" fullWidth>
-							{track.title}
+		if (userTracks.length === 0) {
+			renderTracks = (
+				<>
+					<Typography variant="body1">You currently have no tracks.</Typography>
+					<Link to="/tracks">
+						<Button variant="contained" color="primary">
+							Find a Track
 						</Button>
 					</Link>
-				</div>
+				</>
 			);
-		});
+		} else {
+			renderTracks = userTracks.map((track, index) => {
+				let link = `/tracks/user/${track._id}`;
+				return (
+					<div key={index}>
+						<Link to={link} key={index}>
+							<Button fullWidth variant="outlined" fullWidth>
+								{track.title}
+							</Button>
+						</Link>
+					</div>
+				);
+			});
+		}
 	}
 
 	return (

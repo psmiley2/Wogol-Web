@@ -7,6 +7,8 @@ import CardMedia from "@material-ui/core/CardMedia";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import React from "react";
+import { useSelector } from "react-redux";
+import history from "../../history";
 
 const useStyles = makeStyles({
 	root: {
@@ -17,8 +19,19 @@ const useStyles = makeStyles({
 	},
 });
 
-export default function TrackCard({ title, description }) {
+export default function TrackCard({ id, title, description, image }) {
 	const classes = useStyles();
+	const userID = useSelector((state) => state.user.id);
+	let trackInfoLink = `/tracks/${id}`;
+
+	const handleRedirect = () => {
+		if (userID) {
+			history.push(trackInfoLink);
+		} else {
+			history.push("/login");
+		}
+	};
+
 	return (
 		<Card className={classes.root}>
 			<CardActionArea>
@@ -26,7 +39,7 @@ export default function TrackCard({ title, description }) {
 					component="img"
 					alt={title}
 					height="140"
-					image="/static/images/cards/contemplative-reptile.jpg"
+					image={`/images/${image}`}
 					title={title}
 				/>
 				<CardContent>
@@ -39,7 +52,7 @@ export default function TrackCard({ title, description }) {
 				</CardContent>
 			</CardActionArea>
 			<CardActions className={classes.detailButton}>
-				<Button size="small" color="primary">
+				<Button size="small" color="primary" onClick={handleRedirect}>
 					Learn More
 				</Button>
 			</CardActions>

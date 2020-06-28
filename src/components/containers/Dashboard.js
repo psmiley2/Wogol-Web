@@ -21,6 +21,10 @@ const useStyles = makeStyles({
 		textAlign: "center",
 		margin: "auto",
 	},
+	noTracks: {
+		textAlign: "center",
+		margin: "auto",
+	},
 });
 
 export default function Dashboard() {
@@ -47,8 +51,17 @@ export default function Dashboard() {
 	}, [update]);
 
 	if (userTracks) {
-		if (userTracks === []) {
-			return <div>Sign up for a track</div>;
+		if (userTracks.length === 0) {
+			renderTracks = (
+				<Box className={classes.noTracks}>
+					<Typography variant="body1">You currently have no tasks.</Typography>
+					<Link to="/tracks">
+						<Button variant="contained" color="primary">
+							Find a New Track
+						</Button>
+					</Link>
+				</Box>
+			);
 		} else {
 			renderTasks = (track) => {
 				let checkpoint;

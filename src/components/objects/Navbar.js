@@ -4,7 +4,7 @@ import IconButton from "@material-ui/core/IconButton";
 import { makeStyles } from "@material-ui/core/styles";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
-import GridOn from "@material-ui/icons/GridOn";
+import { ShowChart } from "@material-ui/icons";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -71,7 +71,7 @@ export default function ButtonAppBar() {
 							color="inherit"
 							aria-label="dashboard"
 						>
-							<GridOn />
+							<ShowChart />
 						</IconButton>
 					</Link>
 					<Link to="/tracks">

@@ -1,9 +1,31 @@
-import { Button } from "@material-ui/core";
+import { Box, Button, Grid, List, ListItem, Typography } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-// import history from "../../history"
+import TaskInfo from "./TaskInfo";
+
+const useStyles = makeStyles((theme) => ({
+	root: {
+		width: "50%",
+		height: "100%",
+		paddingTop: "3%",
+		justifyContent: "center",
+		margin: "auto",
+	},
+	list: {
+		backgroundColor: "WhiteSmoke",
+	},
+	currentList: {
+		backgroundColor: "Yellow",
+	},
+	heading: {
+		textAlign: "center",
+	},
+}));
+
 export default React.memo((props) => {
+	const classes = useStyles();
 	const [track, setTrack] = useState("");
 	const userID = useSelector((state) => state.user.id);
 	let id = props.match.params.trackID;
@@ -22,23 +44,23 @@ export default React.memo((props) => {
 	if (track) {
 		renderTasks = (checkpointIndex) =>
 			track.checkpoints[checkpointIndex].tasks.map((task, index) => {
-				return (
-					<div key={index}>
-						<li>
-							{task.title} - {task.description}
-						</li>
-					</div>
-				);
+				return <TaskInfo key={index} task={task} />;
 			});
 
 		renderCheckpoints = track.checkpoints.map((checkpoint, index) => {
 			return (
-				<div key={index}>
-					<li>
-						<h4>{checkpoint.title}</h4>"{checkpoint.description}"
-						<ul>{renderTasks(index)}</ul>
-					</li>
-				</div>
+				<Box>
+					<ListItem key={index} dense>
+						<Grid container spacing={2}>
+							<Grid item xs={12}>
+								<Typography variant="h5">{checkpoint.title}</Typography>
+							</Grid>
+							<Grid item xs={12}>
+								<List className={classes.list}>{renderTasks(index)}</List>
+							</Grid>
+						</Grid>
+					</ListItem>
+				</Box>
 			);
 		});
 	}
@@ -60,13 +82,16 @@ export default React.memo((props) => {
 	};
 
 	return (
-		<div>
-			<h2>{track.title}</h2>
-			<Button color="secondary" variant="outlined" onClick={() => handleTrackAdd()}>
-				Add Track
-			</Button>
-			<p>{track.description}</p>
+		<Box className={classes.root}>
+			<Box className={classes.heading}>
+				<Typography variant="h4">{track.title}</Typography>
+				<Typography variant="body1">{track.description}</Typography>
+				<br />
+				<Button color="primary" variant="contained" onClick={() => handleTrackAdd()}>
+					Add Track
+				</Button>
+			</Box>
 			<ol>{renderCheckpoints}</ol>
-		</div>
+		</Box>
 	);
 });
