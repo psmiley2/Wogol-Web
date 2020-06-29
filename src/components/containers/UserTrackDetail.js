@@ -3,7 +3,9 @@ import { makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { REACT_APP_BASE_SERVER_URL } from "../../enviroment";
 import TaskInfo from "./TaskInfo";
+
 const useStyles = makeStyles((theme) => ({
 	root: {
 		width: "50%",
@@ -30,7 +32,7 @@ export default function UserTrackDetail(props) {
 	const [track, setTrack] = useState(undefined);
 	useEffect(() => {
 		axios
-			.get(`http://localhost:8080/tracks/user/${userID}/${trackID}`)
+			.get(`${REACT_APP_BASE_SERVER_URL}tracks/user/${userID}/${trackID}`)
 			.then((res) => {
 				setTrack(res.data);
 			})

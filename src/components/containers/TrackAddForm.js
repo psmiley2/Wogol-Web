@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
+import { REACT_APP_BASE_SERVER_URL } from "../../enviroment";
 import history from "../../history";
 import TrackAddCheckpoint from "./TrackAddCheckpoint";
 import TrackAddDetails from "./TrackAddDetails";
@@ -44,7 +45,7 @@ export default function TrackAddForm(props) {
 		e.preventDefault();
 
 		axios
-			.post("http://localhost:8080/tracks", {
+			.post(`${REACT_APP_BASE_SERVER_URL}tracks`, {
 				title,
 				description,
 				author: props.userId,

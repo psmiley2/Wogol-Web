@@ -15,6 +15,7 @@ import { Message } from "@material-ui/icons";
 import axios from "axios";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
+import { REACT_APP_BASE_SERVER_URL } from "../../enviroment";
 
 const useStyles = makeStyles({
 	root: {
@@ -49,7 +50,7 @@ export default function Task({ track, checkpoint, task, rerenderTasks }) {
 		return new Promise(async (resolve, reject) => {
 			await axios
 				.post(
-					`http://localhost:8080/tracks/user/${userID}/${trackID}/${checkpointID}/${taskID}`,
+					`${REACT_APP_BASE_SERVER_URL}tracks/user/${userID}/${trackID}/${checkpointID}/${taskID}`,
 					update
 				)
 				.then((res) => {
@@ -64,7 +65,7 @@ export default function Task({ track, checkpoint, task, rerenderTasks }) {
 
 	const checkCheckpointCompleted = async () => {
 		let response = await axios
-			.get(`http://localhost:8080/tracks/user/${userID}/${trackID}`)
+			.get(`${REACT_APP_BASE_SERVER_URL}tracks/user/${userID}/${trackID}`)
 			.catch((err) => console.error(err));
 
 		let track = response.data;
@@ -84,7 +85,7 @@ export default function Task({ track, checkpoint, task, rerenderTasks }) {
 
 		if (checkpointCompleted) {
 			await axios
-				.post(`http://localhost:8080/tracks/nextCheckpoint/${userID}/${trackID}`)
+				.post(`${REACT_APP_BASE_SERVER_URL}${userID}/${trackID}`)
 				.then((res) => {
 					console.log(res);
 				})

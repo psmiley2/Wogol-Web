@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { REACT_APP_BASE_SERVER_URL } from "../../enviroment";
 import TaskInfo from "./TaskInfo";
 
 const useStyles = makeStyles((theme) => ({
@@ -34,7 +35,7 @@ export default React.memo((props) => {
 
 	useEffect(() => {
 		axios
-			.get(`http://localhost:8080/tracks/${id}`)
+			.get(`${REACT_APP_BASE_SERVER_URL}tracks/${id}`)
 			.then((res) => {
 				setTrack(res.data);
 			})
@@ -67,13 +68,13 @@ export default React.memo((props) => {
 
 	const handleTrackAdd = async () => {
 		await axios
-			.post(`http://localhost:8080/tracks/${userID}`, track)
+			.post(`${REACT_APP_BASE_SERVER_URL}tracks/${userID}`, track)
 			.then((res) => {
 				console.log(res);
 			})
 			.catch((err) => console.error(err));
 		await axios
-			.post(`http://localhost:8080/tracks/nextCheckpoint/${userID}/${track._id}`)
+			.post(`${REACT_APP_BASE_SERVER_URL}tracks/nextCheckpoint/${userID}/${track._id}`)
 			.then((res) => {
 				console.log(res);
 			})

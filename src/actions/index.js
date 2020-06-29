@@ -1,5 +1,6 @@
 import axios from "axios";
 import { reactLocalStorage } from "reactjs-localstorage";
+import { REACT_APP_BASE_SERVER_URL } from "../enviroment";
 import { LOGIN, LOGOUT, REGISTER, SET_USER_ID } from "./types";
 
 export const login = (email, password) => async (dispatch) => {
@@ -10,7 +11,7 @@ export const login = (email, password) => async (dispatch) => {
 		};
 		let response;
 		await axios
-			.post("http://localhost:8080/users/login", body, {
+			.post(`${REACT_APP_BASE_SERVER_URL}users/login`, body, {
 				withCredentials: true,
 			})
 			.then((res) => {
@@ -30,7 +31,7 @@ export const login = (email, password) => async (dispatch) => {
 export const logout = () => async (dispatch) => {
 	return new Promise(async (resolve, reject) => {
 		await axios
-			.post("http://localhost:8080/users/logout", {
+			.post(`${REACT_APP_BASE_SERVER_URL}users/logout`, {
 				withCredentials: true,
 			})
 			.then((res) => {
@@ -54,7 +55,7 @@ export const register = (email, password) => async (dispatch) => {
 	};
 	let response;
 	await axios
-		.post("http://localhost:8080/users/register", body)
+		.post(`${REACT_APP_BASE_SERVER_URL}users/register`, body)
 		.then((res) => {
 			response = res;
 			reactLocalStorage.set("WOGOL_userID", res.data._id);

@@ -4,6 +4,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { REACT_APP_BASE_SERVER_URL } from "../../enviroment";
 import LoggedOutDashboard from "./LoggedOutDashboard";
 import Task from "./Task";
 
@@ -28,6 +29,8 @@ const useStyles = makeStyles({
 });
 
 export default function Dashboard() {
+	console.log(REACT_APP_BASE_SERVER_URL);
+	console.log(process.env.NODE_ENV);
 	const classes = useStyles();
 	let renderTracks = <></>;
 	let renderTasks = <></>;
@@ -42,7 +45,7 @@ export default function Dashboard() {
 	useEffect(() => {
 		if (userID) {
 			axios
-				.get(`http://localhost:8080/tracks/user/${userID}`)
+				.get(`${REACT_APP_BASE_SERVER_URL}tracks/user/${userID}`)
 				.then((res) => {
 					setUserTracks(res.data);
 				})

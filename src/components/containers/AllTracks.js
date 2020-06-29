@@ -2,7 +2,9 @@ import { Box, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { REACT_APP_BASE_SERVER_URL } from "../../enviroment";
 import TrackList from "./TrackList";
+
 const useStyles = makeStyles({
 	root: {
 		width: "100%",
@@ -28,7 +30,7 @@ export default function AllTracks() {
 
 	useEffect(() => {
 		axios
-			.get("http://localhost:8080/tracks")
+			.get(`${REACT_APP_BASE_SERVER_URL}tracks`)
 			.then((res) => {
 				setTracks(res.data);
 			})

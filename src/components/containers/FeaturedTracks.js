@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { REACT_APP_BASE_SERVER_URL } from "../../enviroment";
 import SuggestionPopup from "./SuggestionPopup";
 import TrackCard from "./TrackCard";
 
@@ -42,7 +43,7 @@ export default function FeaturedTracks() {
 
 	useEffect(() => {
 		axios
-			.get("http://localhost:8080/tracks/featured")
+			.get(`${REACT_APP_BASE_SERVER_URL}tracks/featured`)
 			.then((res) => {
 				setFeaturedTracks(res.data);
 			})

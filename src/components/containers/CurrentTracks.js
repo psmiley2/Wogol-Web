@@ -4,7 +4,9 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { REACT_APP_BASE_SERVER_URL } from "../../enviroment";
 import history from "../../history";
+
 const useStyles = makeStyles({
 	root: {
 		width: "100%",
@@ -39,7 +41,7 @@ export default function CurrentTracks() {
 	const [userTracks, setUserTracks] = useState(undefined);
 	useEffect(() => {
 		axios
-			.get(`http://localhost:8080/tracks/user/${userID}`)
+			.get(`${REACT_APP_BASE_SERVER_URL}tracks/user/${userID}`)
 			.then((res) => {
 				setUserTracks(res.data);
 			})

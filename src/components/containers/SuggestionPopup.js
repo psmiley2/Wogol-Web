@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
+import { REACT_APP_BASE_SERVER_URL } from "../../enviroment";
 import history from "../../history";
 
 const useStyles = makeStyles({
@@ -37,7 +38,7 @@ export default function SuggestionPopup() {
 		e.preventDefault();
 
 		await axios
-			.post("http://localhost:8080/tracks/suggestion", { suggestion: suggestion })
+			.post(`${REACT_APP_BASE_SERVER_URL}tracks/suggestion`, { suggestion: suggestion })
 			.catch((err) => console.error(err));
 		handleClose();
 	};
